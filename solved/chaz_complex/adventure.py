@@ -57,49 +57,19 @@ room_treasure.branches.update({
     "south": room_narrow,
 })
 
-# Make a new player object that is currently in the 'outside' rooms_dict.
-name = input("Please input name: ")
-player = Player(name, room_outside)
-
 
 def direction_input(option):
     global player
-    # nonlocal dir_table
     option = option.lower()
-    dir_table = {
-        "north": "north",
-        "n": "north",
-        "east": "east",
-        "e": "east",
-        "south": "south",
-        "s": "south",
-        "west": "west",
-        "w": "west",
-    }
     if option not in dir_table:
         print("!!!!!!!!!!\nINVALID INPUT\n!!!!!!!!!!!!!!!!")
-    # elif not player.location.branches.get(dir_table[option]):
-    #     print("You've hit a wall! Can't go that way!")
     else:
         player.move_rooms_in_location(dir_table[option])
 
 
 def action_input(option):
     global player
-    # nonlocal action_table
     option = option.lower()
-
-    # action_table = {
-    #     "a": "action",
-    #     "action": "action",
-    #     "i": "inventory",
-    #     "inventory": "inventory",
-    #     "inv": "inventory",
-    #     "q": "q",
-    #     "quit": "q",
-    #     "s": "search",
-    #     "search": "search",
-    # }
 
     if option not in action_table:
         print("!!!!!!!!!!\nINVALID INPUT\n!!!!!!!!!!!!!!!!")
@@ -109,37 +79,31 @@ def action_input(option):
     elif action_table[option] == "inventory":
         print(f"{player.inventory}")
     elif action_table[option] == "search":
-        items = cur_room.items
         grabbed = []
 
-        for item in items:
+        for item in player.location.items:
             print(f"{player.name} sees {item}")
 
-            # decide =
             if input(f"Do you want {item.name}? (y)/(n)? ").lower() == "y":
                 grabbed.append(item)
-
-            # elif decide == "n":
-            #     print("You don't want that.")
 
         for item in grabbed:
             player.grab_item(item)
             player.location.remove_item(item)
 
 
-# Main
 if __name__ == '__main__':
+
+    # Make a new player object that is currently in the 'outside' rooms_dict.
+    name = input("Please input name: ")
+    player = Player(name, room_outside)
 
     # Write a loop that:
     direction = None
-    cur_room = None
     print("\nYou must go find the treasure because of reasons!")
     input("Press any key to begin:")
 
     while direction != "q":
-        if cur_room != player.location:
-            cur_room = player.location
-
         print(f"{player.name} is in {player.location.name}")
         print(f"{player.location}")
 
@@ -162,34 +126,20 @@ if __name__ == '__main__':
             "i": "inventory",
             "inventory": "inventory",
             "inv": "inventory",
-            "q": "quit",
-            "quit": "quit",
+            "q": "q",
+            "quit": "q",
             "search": "search",
-            "s": "search",
+            # "s": "search",
         }
 
         if direction in dir_table:
+            # if player hopes to move in a direction
             direction_input(direction)
 
         if direction in action_table:
+            # if player hopes to invoke an action
             action_input(direction)
 
         if direction == "q":
+            # If the user enters "q", quit the game.
             quit()
-
-        # If current rooms_dict has None, print a message
-        if cur_room is None:
-            print(f"There is nowhere for {player.name} to go.")
-        elif cur_room == player.location:
-            # If current rooms_dict has not updated, print a message
-            print("Think about your next move...")
-        # else:
-            # If current rooms_dict available to update, update rooms_dict and move on
-            # print(f"{player.name} moves with vigor to {cur_room.name}")
-            # player.location = cur_room
-        #
-        # # Print an error message if the movement isn't allowed.
-        # else:
-        #     print("Direction Not Valid")
-
-    # If the user enters "q", quit the game.

@@ -36,11 +36,11 @@ Room: {self.name}
 - Description: {self.description}
 - Items: [{items_desc}]
 - Branches: 
-    north={"None" if n is None else n.name}, 
+    north={n.name if n is not None else "None"}, 
     east={e.name if e is not None else "None"}, 
     south={s.name if s is not None else "None"}
     west={w.name if w is not None else "None"}
-        """
+"""
 
     def add_item(self, item: Item):
         if item not in self.items:
