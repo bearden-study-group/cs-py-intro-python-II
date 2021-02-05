@@ -1,31 +1,50 @@
-# from rooms_dict import Room
-from player import Player
 from room import Room
+from player import Player
+from item import Item
+import random
 
-# from item import Item
+# Declare all Items
+# Bow / arrows
+item_bow_arrow = Item('Bow of wonder', 'Its a super cool, amazing, bow and arrow! Whoa! Nice!', 80)
+# health pot
+item_health_pot = Item('Health Pot', 'Its a health pot, it heals... and stuff', 0.5)
+# sword
+item_sword = Item('Magic sword', 'This is the sword you have looked for all your life. Why is it here??', 10)
+# gold
+item_gold = Item('Gold', 'Whoa! Its shiny gold. There are 20 pieces Maybe you can use this somewhere', 2)
+# Boots
+item_boots = Item('Boots', 'This is an old boot. Boooo.....', 3)
+# helmet
+item_helmet = Item('Helmet', 'Its a helmet. It is kinda beat up but better than nothing!', 3)
+# potato
+item_potato = Item('Potato', 'It looks like a potato, smells like a potato, feels like a potato.... but is it??', 1)
+
+# Randomly assign items to rooms
+list_of_all_items = [item_bow_arrow, item_health_pot, item_sword, item_gold, item_boots, item_helmet, item_potato]
+# random.shuffle(list_of_all_items)
 
 # Declare all the rooms
+
+
 room = {
-    'outside': Room(
-        "Outside Cave Entrance",
-        "North of you, the cave mount beckons"
-    ),
-    'foyer': Room(
-        "Foyer",
-        """Dim light filters in from the south. Dusty passages run north and east."""
-    ),
-    'overlook': Room(
-        "Grand Overlook",
-        """A steep cliff appears before you, falling into the darkness. 
-        Ahead to the north, a light flickers in the distance, but there is no way across the chasm."""
-    ),
-    'narrow': Room(
-        "Narrow Passage",
-        """The narrow passage bends here from west to north. The smell of gold permeates the air.""",
-    ),
+    'outside': Room("Outside Cave Entrance",
+                    "North of you, the cave mount beckons", list_of_all_items[0:3]
+                    # This makes a new list from the first element.
+                    ),
+
+    'foyer': Room("Foyer", """Dim light filters in from the south. Dusty
+passages run north and east.""", list_of_all_items[1:2]),
+
+    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
+into the darkness. Ahead to the north, a light flickers in
+the distance, but there is no way across the chasm.""", list_of_all_items[2:3]),
+
+    'narrow': Room("Narrow Passage", """The narrow passage bends here from west
+to north. The smell of gold permeates the air.""", list_of_all_items[3:4]),
+
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers. The only exit is to the south.""", list_of_all_items[4:]),
 }
 
 # Link rooms together
@@ -41,90 +60,76 @@ room['treasure'].s_to = room['narrow']
 
 #
 # Main
-#
+name = input('Welcome to the game! What is your name? ')
 
-# Make a new player object that is currently in the 'outside' rooms_dict.
-name = input("Welcome to the game! What is your name?")
+# Make a new player object that is currently in the 'outside' room.
+
 player = Player(name, room['outside'])
 
-# Write a loop that:
 direction = None
-cur_room = None
+current_room = None
+input('Press any key ')
 
-print("You must go find the treasure because of reasons!")
-input("Press any key to begin: ")
+# This is how we are reassigning
 
-# While game is playing
 while direction != "q":
-    # If player has not moved
-    if cur_room == player.location:
-        # Current rooms_dict stays stable
-        cur_room = cur_room
-    else:
-        # Current rooms_dict updates to players new location
-        cur_room = player.location
+    if current_room != player.current_room:
+        current_room = player.current_room
 
-    # Print player name & location
-    print(f"{player.name} is in {player.location.name}")
+    print(f'{player.current_room.name}-- \n')
 
-    # * Prints the current rooms_dict name
-    print(f"{player.location.name}")
-    # * Prints the current description (the textwrap module might be useful here).
-    print(f"{player.location.description}")
+    print(f'{player.current_room.items}-- \n')
 
-    # Print items in the rooms_dict
-    if player.location.item:
-        print(f"{player.location.item}")
+    yes_no = input(
+        f'Would you like to choose any of these items to keep{player.current_room.items} to pick up? Y or N').lower()
+    if yes_no == "y":
+        # player.grab_item
+        # player.current_room.item
+        # item_selected = False
+        # while not item_selected:
+        for item in player.current_room.items:
+            yes_no2 = input(f'Would you like to pick up {item}? Y or N').lower()
+            if yes_no2 == "y":
+                player.grab_item(item)
+                # item_selected = True 
 
-    # * Waits for user input and decides what to do.
-    direction = input("What do you do? (n, s, e, w, (a)ction: ")
+        # item_selected = True
+        # print(f'You selected no items!') #If we reach this code, we itterated through each item and player did not select any item. =(
 
-    # If the user enters a cardinal direction, attempt to move to the rooms_dict there.
-    if direction.lower() in ["n", "s", "e", "w", "q", "a"]:
+    print(f"{player.current_room.description} \n")
+
+    direction = input('Choose your direction. Type: n,s,e, or w. To see your inventory type: I ').lower()
+    if direction in ["n", "s", "e", "w", "i"]:
         if direction == "n":
-            # Update current rooms_dict to northern rooms_dict
-            cur_room = cur_room.n_to
+            current_room = current_room.n_to
         elif direction == "s":
-            # Update current rooms_dict to southern rooms_dict
-            cur_room = cur_room.s_to
+            current_room = current_room.s_to
         elif direction == "e":
-            # Update current rooms_dict to eastern rooms_dict
-            cur_room = cur_room.e_to
+            current_room = current_room.e_to
         elif direction == "w":
-            # Update current rooms_dict to western rooms_dict
-            cur_room = cur_room.w_to
-        elif direction == "a":
-            action = input("What would you like to do? (s)earch (i)nventory (b)ack")
-            if action.lower() == "s" and player.location.item:
-                item = cur_room.item
-                print(f"{player.name} sees {item.name}")
-                decide = input(f"Do you want {item.name}? (y)/(n)? ")
-                if decide.lower() == "y":
-                    player.inventory.append(item.name)
-                elif decide.lower() == "n":
-                    print("You don't want that.")
-            elif action == "s" and player.location.item in player.inventory:
-                print("There is nothing to see here")
+            current_room = current_room.w_to
+        elif direction == "i":
+            player.check_inventory()
+            drop_y_n = input(f'Would you like to drop any items? Y or N').lower()
+            if drop_y_n == "y":
+                for item in player.inventory:
+                    if input(f'Is {item} what you would like to drop? Y or N').lower() == 'y':
+                        player.drop_item(item)
 
-            if action.lower() == "i":
-                print(f"{player.inventory}")
-        elif direction == "q":
-            quit()
-
-        # If current rooms_dict has None, print a message
-        if cur_room is None:
-            print(f"There is nowhere for {player.name} to go.")
-        elif cur_room == player.location:
-            # If current rooms_dict has not updated, print a message
-            print("Think about your next move...")
-        else:
-            # If current rooms_dict available to update, update rooms_dict and move on
-            print(f"{player.name} moves with vigor to {cur_room.name}")
-            player.location = cur_room
-
-    # Print an error message if the movement isn't allowed.
+    if current_room is None:
+        print('Oh Noes, You can\'t go there! That is a wall. \n')
     else:
-        print("Direction Not Valid")
+        player.current_room = current_room
 
+# Write a loop that:
+#
+##* Prints the current room name
+## * Prints the current description (the textwrap module might be useful here).
+# * Waits for user input and decides what to do.
+
+##Go play a mud, 
+#
+# If the user enters a cardinal direction, attempt to move to the room there.
+# Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
