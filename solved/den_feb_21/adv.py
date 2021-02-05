@@ -25,7 +25,7 @@ room = {
     ),
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""", item['pole']),
+earlier adventurers. The only exit is to the south."""),
 }
 
 # Link rooms together

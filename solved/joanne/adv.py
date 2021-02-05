@@ -74,7 +74,7 @@ def room_logic(direction):
 
         # If there is nothing in that direction
         if not getattr(player.current_room, move):
-            print(f"""\nYou've hit a wall, can't go that way! 
+            print(f"""\nYou've hit a wall, can't go that way!
 Going back to {player.current_room.name}.""")
 
         # Move to the new location

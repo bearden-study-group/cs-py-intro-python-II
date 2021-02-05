@@ -3,11 +3,11 @@ from room import Room
 from item import Item
 
 # DECLARE ITEMS
-item_hat = Item("Hat", "A very very fancy hat")
-item_bat = Item("Bat", "An unusually swole bat")
-item_rat = Item("Rate", "This is NOT a bat, there are probably others.")
-item_rope = Item("Rope", "For adventuring")
-item_pole = Item("Pole", "You cannot adventure without a 10 foot pole")
+item_hat = Item("Hat", 0.5, "A very very fancy hat")
+item_bat = Item("Bat", 2, "An unusually swole bat")
+item_rat = Item("Rate", 0.5, "This is NOT a bat, there are probably others.")
+item_rope = Item("Rope", 0.4, "For adventuring")
+item_pole = Item("Pole", 9, "You cannot adventure without a 10 foot pole")
 
 # DECLARE ROOMS
 room_outside = Room(
@@ -106,7 +106,6 @@ def action_input(option):
         action_input(re_select)
     elif action_table[option] == "inventory":
         print(f"{player.inventory}")
-
 
 
 # Main
