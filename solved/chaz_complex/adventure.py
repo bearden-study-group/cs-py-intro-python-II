@@ -64,6 +64,7 @@ player = Player(name, room_outside)
 
 def direction_input(option):
     global player
+    # nonlocal dir_table
     option = option.lower()
     dir_table = {
         "north": "north",
@@ -77,27 +78,28 @@ def direction_input(option):
     }
     if option not in dir_table:
         print("!!!!!!!!!!\nINVALID INPUT\n!!!!!!!!!!!!!!!!")
-    elif not player.location.branches.get(dir_table[option]):
-        print("You've hit a wall! Can't go that way!")
+    # elif not player.location.branches.get(dir_table[option]):
+    #     print("You've hit a wall! Can't go that way!")
     else:
-        player.location = player.location.branches[dir_table[option]]
+        player.move_rooms_in_location(dir_table[option])
 
 
 def action_input(option):
     global player
+    # nonlocal action_table
     option = option.lower()
 
-    action_table = {
-        "a": "action",
-        "action": "action",
-        "i": "inventory",
-        "inventory": "inventory",
-        "inv": "inventory",
-        "q": "q",
-        "quit": "q",
-        "s": "search",
-        "search": "search",
-    }
+    # action_table = {
+    #     "a": "action",
+    #     "action": "action",
+    #     "i": "inventory",
+    #     "inventory": "inventory",
+    #     "inv": "inventory",
+    #     "q": "q",
+    #     "quit": "q",
+    #     "s": "search",
+    #     "search": "search",
+    # }
 
     if option not in action_table:
         print("!!!!!!!!!!\nINVALID INPUT\n!!!!!!!!!!!!!!!!")
@@ -106,6 +108,23 @@ def action_input(option):
         action_input(re_select)
     elif action_table[option] == "inventory":
         print(f"{player.inventory}")
+    elif action_table[option] == "search":
+        items = cur_room.items
+        grabbed = []
+
+        for item in items:
+            print(f"{player.name} sees {item}")
+
+            # decide =
+            if input(f"Do you want {item.name}? (y)/(n)? ").lower() == "y":
+                grabbed.append(item)
+
+            # elif decide == "n":
+            #     print("You don't want that.")
+
+        for item in grabbed:
+            player.grab_item(item)
+            player.location.remove_item(item)
 
 
 # Main
@@ -153,50 +172,24 @@ if __name__ == '__main__':
             direction_input(direction)
 
         if direction in action_table:
+            action_input(direction)
 
-            if direction == "a":
-                action = input("What would you like to do? (s) search,  (i) inventory,  (b) back")
-                if action.lower() == "s" and player.location.items:
-                    items = cur_room.items
-                    grabbed = []
+        if direction == "q":
+            quit()
 
-                    for item in items:
-                        print(f"{player.name} sees {item}")
-
-                        decide = input(f"Do you want {item.name}? (y)/(n)? ").lower()
-
-                        if decide == "y":
-                            grabbed.append(item)
-
-                        elif decide == "n":
-                            print("You don't want that.")
-
-                    for item in grabbed:
-                        player.grab_item(item)
-                        player.location.remove_item(item)
-
-                # elif action == "s" and player.location.items in player.inventory:
-                #     print("There is nothing to see here")
-
-                if action.lower() == "i":
-                    print(f"{player.inventory}")
-
-            elif direction == "q":
-                quit()
-
-            # If current rooms_dict has None, print a message
-            if cur_room is None:
-                print(f"There is nowhere for {player.name} to go.")
-            elif cur_room == player.location:
-                # If current rooms_dict has not updated, print a message
-                print("Think about your next move...")
-            else:
-                # If current rooms_dict available to update, update rooms_dict and move on
-                print(f"{player.name} moves with vigor to {cur_room.name}")
-                player.location = cur_room
-
-        # Print an error message if the movement isn't allowed.
-        else:
-            print("Direction Not Valid")
+        # If current rooms_dict has None, print a message
+        if cur_room is None:
+            print(f"There is nowhere for {player.name} to go.")
+        elif cur_room == player.location:
+            # If current rooms_dict has not updated, print a message
+            print("Think about your next move...")
+        # else:
+            # If current rooms_dict available to update, update rooms_dict and move on
+            # print(f"{player.name} moves with vigor to {cur_room.name}")
+            # player.location = cur_room
+        #
+        # # Print an error message if the movement isn't allowed.
+        # else:
+        #     print("Direction Not Valid")
 
     # If the user enters "q", quit the game.

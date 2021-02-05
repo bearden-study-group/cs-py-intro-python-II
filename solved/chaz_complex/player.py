@@ -13,6 +13,8 @@ class Player:
         self.name = name
         self.location = location
         self.inventory = inventory if inventory is not None else {}
+        self.health = 100
+        self.capacity = 50
 
     def __str__(self):
         return f"""
@@ -30,9 +32,6 @@ class Player:
             self.inventory[item] = 0
         self.inventory[item] += 1
 
-        # print(f'\nYou now have the {item.name} in your inventory.')
-        # print(f'  * Your current inventory:\n    {self.inventory}')
-
     def drop_item(self, item: Item):
         if item.name not in self.inventory:
             return
@@ -41,7 +40,12 @@ class Player:
         if self.inventory[item] == 0:
             del self.inventory[item]
 
-        # print(f'  * {item} has been removed from your inventory.')
+    def move_rooms_in_location(self, direction: str):
+        if not self.location.branches.get(direction):
+            print("You've hit a wall! Can't go that way")
+
+        else:
+            self.location = self.location.branches[direction]
 
     def check_inventory(self):
         print(f"-----{self.name}'s Inventory------")
