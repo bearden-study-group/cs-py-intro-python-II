@@ -40,10 +40,9 @@ class Player:
         if self.inventory[item] == 0:
             del self.inventory[item]
 
-    def move_rooms_in_location(self, direction: str):
+    def move_room(self, direction: str):
         if not self.location.branches.get(direction):
             print("You've hit a wall! Can't go that way")
-
         else:
             self.location = self.location.branches[direction]
 

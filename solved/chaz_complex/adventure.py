@@ -64,7 +64,7 @@ def direction_input(option):
     if option not in dir_table:
         print("!!!!!!!!!!\nINVALID INPUT\n!!!!!!!!!!!!!!!!")
     else:
-        player.move_rooms_in_location(dir_table[option])
+        player.move_room(dir_table[option])
 
 
 def action_input(option):
@@ -126,17 +126,15 @@ if __name__ == '__main__':
             "i": "inventory",
             "inventory": "inventory",
             "inv": "inventory",
-            "q": "q",
-            "quit": "q",
             "search": "search",
-            # "s": "search",
+            "s": "search"
         }
 
         if direction in dir_table:
             # if player hopes to move in a direction
             direction_input(direction)
 
-        if direction in action_table:
+        elif direction in action_table:
             # if player hopes to invoke an action
             action_input(direction)
 
