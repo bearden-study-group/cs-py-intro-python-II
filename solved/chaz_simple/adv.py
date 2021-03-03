@@ -57,10 +57,6 @@ room_treasure.branches.update({
     "south": room_narrow,
 })
 
-# Make a new player object that is currently in the 'outside' rooms_dict.
-name = input("Please input name: ")
-player = Player(name, room_outside)
-
 
 def direction_input(option):
     global player
@@ -77,8 +73,8 @@ def direction_input(option):
     }
     if option not in dir_table:
         print("!!!!!!!!!!\nINVALID INPUT\n!!!!!!!!!!!!!!!!")
-    elif not player.location.branches.get(dir_table[option]):
-        print("You've hit a wall! Can't go that way!")
+    elif dir_table[option] not in player.location.branches:
+        print("You've hit a wall! Can't go that way!\n")
     else:
         player.location = player.location.branches[dir_table[option]]
 
@@ -108,9 +104,11 @@ def action_input(option):
         print(f"{player.inventory}")
 
 
-
 # Main
 if __name__ == '__main__':
+    # Make a new player object that is currently in the 'outside' rooms_dict.
+    name = input("Please input name: ")
+    player = Player(name, room_outside)
 
     # Write a loop that:
     direction = None
