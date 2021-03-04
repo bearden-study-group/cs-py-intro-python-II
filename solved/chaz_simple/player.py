@@ -1,5 +1,4 @@
 from typing import Optional, Dict
-
 from room import Room
 from item import Item
 
@@ -16,22 +15,17 @@ class Player:
 
     def __str__(self):
         return f"""
-        -----------------
-        Player
-        -----------------
-        name: {self.name}
-        location: {self.location}
-        inventory: {self.inventory}
-        -----------------
-        """
+--------Player----------
+* name: {self.name}
+* location: {self.location}
+* inventory: {self.inventory}
+------------------------\n\n
+"""
 
     def grab_item(self, item: Item):
         if item not in self.inventory:
             self.inventory[item] = 0
         self.inventory[item] += 1
-
-        # print(f'\nYou now have the {item.name} in your inventory.')
-        # print(f'  * Your current inventory:\n    {self.inventory}')
 
     def drop_item(self, item: Item):
         if item.name not in self.inventory:
@@ -40,8 +34,6 @@ class Player:
         self.inventory[item] -= 1
         if self.inventory[item] == 0:
             del self.inventory[item]
-
-        # print(f'  * {item} has been removed from your inventory.')
 
     def check_inventory(self):
         print(f"-----{self.name}'s Inventory------")
