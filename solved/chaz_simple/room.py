@@ -40,7 +40,7 @@ Room: {self.name}
     east={e.name if e is not None else "None"}, 
     south={s.name if s is not None else "None"}
     west={w.name if w is not None else "None"}
-        """
+"""
 
     def add_item(self, item: Item):
         if item not in self.items:
