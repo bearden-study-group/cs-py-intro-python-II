@@ -23,14 +23,8 @@ class Room:
 ----------
 Room: {self.name},
 * Description: {self.description}, 
-* Branches: {branch_rep},
+* Branches: \n{branch_rep},
 """
-
-    def is_valid_direction(self, direction):
-        if self.branches[direction]:
-            return True
-        else:
-            return False
 
     def get_room_in_direction(self, direction):
         if self.branches[direction]:

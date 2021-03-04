@@ -6,3 +6,6 @@ class Item:
 
     def __repr__(self):
         return f'Item({self.name}, {self.weight})'
+
+    def __str__(self):
+        return f"Item: name={self.name}, weight={self.weight}, \ndescription: {self.description}\n\n"

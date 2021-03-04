@@ -1,6 +1,10 @@
 from room import Room
 from player import Player
 
+
+########################################################
+# SEED DATA — Don't worry too much about this
+########################################################
 # DECLARE ROOMS
 room_outside = Room(
     "Outside Cave Entrance",
@@ -43,10 +47,18 @@ room_narrow.branches.update({
 room_treasure.branches.update({
     "south": room_narrow,
 })
+
+########################################################
+# RELEVANT CODE
+########################################################
+
+# This is a reference table for any valid commands
 command_table = {
     'q': "q",
     'quit': "q",
 }
+
+# this is a reference table for any valid directions
 direction_table = {
     'n': "north",
     'north': "north",
@@ -59,42 +71,53 @@ direction_table = {
 }
 
 
-## fight monster / inventory / search / a(action) / pickup item / drop item / use item / timeout (/flip table/) then reset
+# fight monster / inventory / search / a(action) / pickup item /
+# drop item / use item / timeout (/flip table/) then reset
 
 def handle_command_input(command):
+    # If the user enters "q", quit the game.
     if command == "q":
-        print('Thank you for playing!')
+        print('\n\nThank you for playing!')
         quit()  # This kills the flow of the program, how rude
 
 
-# main method-- This is what gets run by default, the first time through
+# main method -- This is what gets run by default when we run this file
 if __name__ == '__main__':
+    # this will wait for our user to input a name, then our `name` variable will hold
+    # whatever they input!
+    name = input('Please input your name: ')
+
     # Make a new player object that is currently in the 'outside' room.
-    name = input('Please input your name: ')  # this will give the value for the name
     player = Player(name, room_outside)
-    # Write a loop that:
+
+    # This is the key press to get it started. This will wait for our user to input anything,
+    # and we will only continue past this line after that happens.
     input("Press any key to get started on your adventure!")
 
-    command_key = None  # this is the key press to get it started
+    command_key = None
     while command_key != "q":
+        # * Prints the current room name
+        # * Prints the current description (the textwrap module might be useful here).
+        # * Prints branches
         print(player.current_location)
-        command_key = input(
-            "What would you like to do? \n Options: [n,s,e,w, (q)- Quit]").lower()  ## We want it to always be a key we recognize
 
-        # This is your reference table for what the user is typing in.
+        # * Waits for user input and decides what to do.
+        # We wait for user's input and lowercase it all. May be a valid command, may not be.
+        command_key = input("What would you like to do? \n Options: [n,s,e,w, (q)- Quit]").lower()
+
+        # If the user enters a cardinal direction, attempt to move to the room there.
         if command_key in direction_table:
+            # This player method changes the player's current_location if possible.
+            # It also prints an error message if the movement isn't allowed.
             player.move_rooms(direction_table[command_key])
+
         # This checks if it is a valid command or not
         elif command_key in command_table:
-            handle_command_input(command_table[command_key])  # Good command, this is bracet
+            handle_command_input(command_table[command_key])
+
         else:
             print(f'Nah, "{command_key}" is not valid my boi! Try again:')  # bad command, so warn away
-    # * Prints the current room name
-    # * Prints the current description (the textwrap module might be useful here).
-    # * Prints branches<YAY
-    # * Waits for user input and decides what to do.
     #
-    # If the user enters a cardinal direction, attempt to move to the room there.
-    # Print an error message if the movement isn't allowed.
+
+
     #
-    # If the user enters "q", quit the game.
