@@ -75,10 +75,12 @@ direction_table = {
 # drop item / use item / timeout (/flip table/) then reset
 
 def handle_command_input(command):
+    """takes in a valid command and decides what to do with it"""
+
     # If the user enters "q", quit the game.
     if command == "q":
         print('\n\nThank you for playing!')
-        quit()  # This kills the flow of the program, how rude
+        quit()  # This kills the flow of the program
 
 
 # main method -- This is what gets run by default when we run this file
@@ -96,12 +98,10 @@ if __name__ == '__main__':
 
     command_key = None
     while command_key != "q":
-        # * Prints the current room name
-        # * Prints the current description (the textwrap module might be useful here).
-        # * Prints branches
+        # * Prints the current room name, current description, and branches
+        # the below line will call Room.__str__() and print the result!
         print(player.current_location)
 
-        # * Waits for user input and decides what to do.
         # We wait for user's input and lowercase it all. May be a valid command, may not be.
         command_key = input("What would you like to do? \n Options: [n,s,e,w, (q)- Quit]").lower()
 
@@ -117,7 +117,3 @@ if __name__ == '__main__':
 
         else:
             print(f'Nah, "{command_key}" is not valid my boi! Try again:')  # bad command, so warn away
-    #
-
-
-    #
