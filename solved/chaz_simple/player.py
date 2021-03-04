@@ -25,6 +25,9 @@ class Player:
         -----------------
         """
 
+    def move_rooms(self, direction):
+
+
     def grab_item(self, item: Item):
         if item not in self.inventory:
             self.inventory[item] = 0
