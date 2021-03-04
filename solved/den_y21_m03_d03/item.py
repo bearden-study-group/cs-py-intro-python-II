@@ -5,7 +5,7 @@ class Item:
         self.weight = weight
 
     def __repr__(self):
-        return f'Item({self.name}, {self.weight})'
+        return f'Item(name: {self.name}, weight: {self.weight}, description: {self.description})'
 
     def __str__(self):
-        return f"Item: name={self.name}, weight={self.weight}, \ndescription: {self.description}\n\n"
+        return f"Item(name={self.name}, weight={self.weight}, description: {self.description})"

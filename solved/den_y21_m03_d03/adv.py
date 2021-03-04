@@ -51,6 +51,11 @@ room_treasure.branches.update({
 ########################################################
 # RELEVANT CODE
 ########################################################
+NORTH = "north"
+EAST = "east"
+SOUTH = "south"
+WEST = "west"
+
 
 # This is a reference table for any valid commands
 command_table = {
@@ -60,14 +65,14 @@ command_table = {
 
 # this is a reference table for any valid directions
 direction_table = {
-    'n': "north",
-    'north': "north",
-    'e': "east",
-    'east': "east",
-    'w': "west",
-    'west': "west",
-    's': "south",
-    'south': "south",
+    'n': NORTH,
+    'north': NORTH,
+    'e': EAST,
+    'east': EAST,
+    'w': WEST,
+    'west': WEST,
+    's': SOUTH,
+    'south': SOUTH,
 }
 
 

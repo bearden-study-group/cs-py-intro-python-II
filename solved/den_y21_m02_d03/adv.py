@@ -84,7 +84,7 @@ while direction != "q":
         f'Would you like to choose any of these items to keep{player.current_room.items} to pick up? Y or N').lower()
     if yes_no == "y":
         # player.grab_item
-        # player.current_room.item
+        # player.room_01.item
         # item_selected = False
         # while not item_selected:
         for item in player.current_room.items:

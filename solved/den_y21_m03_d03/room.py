@@ -30,7 +30,7 @@ class Room:
 * Name: {self.name},
 * Description: {self.description}, 
 * Branches: \n\t{branch_rep},
----------------\n\n
+---------------\n
 """
 
     def get_room_in_direction(self, direction):
